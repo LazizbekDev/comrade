@@ -1,9 +1,12 @@
 import TelegramBot from 'node-telegram-bot-api';
 import axios from 'axios';
 import dotenv from 'dotenv';
+import express from 'express';
 dotenv.config();
 
 const bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN, { polling: true });
+const app = express();
+app.use(express.json());
 
 let lastChatId = null;
 
@@ -90,6 +93,14 @@ bot.on('message', async (msg) => {
   } catch (err) {
     console.error('❌ Error handling message:', err.message);
   }
+});
+
+app.get('/', (req, res) => {
+  res.send('🤖 Bot ishga tushdi...');
+});
+
+app.listen(process.env.PORT || 5000, () => {
+  console.log('🌐 Server ishga tushdi...');
 });
 
 // 🚀 Boshlash
